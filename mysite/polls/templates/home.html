@@ -1,0 +1,15 @@
+{% extends "polls/base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="home">
+        <div class="col s6">
+            <a class="waves-effect link waves-light btn z-depth-3" href="{% url 'polls:index' %}">Polls</a>
+        </div>
+        <div class="col s6">
+            <a class="waves-effect link waves-light btn z-depth-3" href="/api">Api</a>
+        </div>
+    </div>
+
+{% endblock %}
