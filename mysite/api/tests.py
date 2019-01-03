@@ -6,13 +6,18 @@ import pdb
 class TestQuestionModel(APITestCase):
     def setUp(self):
         self.url = 'http://localhost:8000/api/polls/'
-        data = {'question_text': "My entry title",
-                'pub_date': "2018-12-24T13:45:25Z",
+        self.url_question = 'http://localhost:8000/api/polls/1/'
+        self.name = "My entry title"
+        self.new_name = "Update entry title"
+        self.date = "2018-12-24T13:45:25Z"
+
+        data = {'question_text': self.name,
+                'pub_date': self.date,
                 '_content_type': "application/json"}
         self.response = self.client.post(self.url, data, format='json')
 
     def test_question_creation_db(self):
-        self.movie = Question(question_text="My entry title", pub_date='2018-12-24T13:45:25Z')
+        self.movie = Question(question_text=self.name, pub_date=self.date)
         self.movie.save()
         self.assertEqual(Question.objects.count(), 2)
 
@@ -20,17 +25,19 @@ class TestQuestionModel(APITestCase):
         self.assertEqual(201, self.response.status_code)
 
     def test_get_created_question(self):
-        getQuestion = self.client.get(self.url, format="json")
+        get_question = self.client.get(self.url, format="json")
         # pdb.set_trace()
-        self.assertEqual(getQuestion.data["count"], 1)
+        self.assertEqual(get_question.data["count"], 1)
 
     def test_update_question(self):
-        response_put = self.client.put('http://localhost:8000/api/polls/1/', {
-            'question_text': 'Update',
-            'pub_date': '2018-12-24T13:45:25Z',
+        get_name = self.client.get(self.url_question, format="json")
+        self.assertEqual(self.name, get_name.data['question_text'])
+        response_put = self.client.put(self.url_question, {
+            'question_text': self.new_name,
+            'pub_date': self.date,
             'pk': 1
         }, format="json")
-        pdb.set_trace()
-        self.assertEqual('Update', response_put.data['question_text'])
+        # pdb.set_trace()
+        self.assertEqual(self.new_name, response_put.data['question_text'])
 
 
