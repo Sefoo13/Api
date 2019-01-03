@@ -1,3 +1,31 @@
 {% block branding %}
 <h1 id="site-name"><a href="{% url 'admin:index' %}">Polls Administration</a></h1>
 {% endblock %}
+
+
+
+
+# class QuestionTests(APITestCase):
+#     def test_create_account(self):
+#         """
+#         Ensure we can create a new account object.
+#         """
+#         pass
+#         url = reverse('account-list')
+#         data = {'name': 'DabApps'}
+#         response = self.client.post(url, data, format='json')
+#         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+#         self.assertEqual(Question.objects.count(), 1)
+#         self.assertEqual(Question.objects.get().name, 'DabApps')
+
+class TestNoteApi(APITestCase):
+    def setUp(self):
+        # create question
+        self.movie = Question(question_text="The Space Between Us", pub_date='2018-12-24T13:45:25Z')
+        self.movie.save()
+
+    def test_movie_creation(self):
+        response = self.client.post(reverse('movies'), {
+            'question_text': 'Bee Movie',
+            'pub_date': '2018-12-24T13:45:25Z'
+        })

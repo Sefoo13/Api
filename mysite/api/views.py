@@ -1,9 +1,10 @@
 from polls.models import Question, Choice
 from rest_framework import viewsets
-from serializers import QuestionSerializer, ChoiceSerializer
-from rest_framework.renderers import JSONRenderer
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework import status
+from .serializers import QuestionSerializer, ChoiceSerializer
+
 
 class QuestionViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -18,3 +19,4 @@ class ChoiceViewSet(viewsets.ModelViewSet):
     """
     queryset = Choice.objects.all()
     serializer_class = ChoiceSerializer
+
