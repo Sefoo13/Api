@@ -6,12 +6,13 @@ from rest_framework import status
 from .serializers import QuestionSerializer, ChoiceSerializer
 
 
-class QuestionViewSet(viewsets.ReadOnlyModelViewSet):
+class QuestionViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+
 
 class ChoiceViewSet(viewsets.ModelViewSet):
     """
